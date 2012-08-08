@@ -1,4 +1,4 @@
-ko.dirtyFlag = function(root, isInitiallyDirty, saveMethod) {
+ko.hamhock = function(root, isInitiallyDirty, saveMethod) {
     var result = function() {}
     var _initialState = ko.observable(ko.toJSON(root));
     var _isInitiallyDirty = ko.observable(isInitiallyDirty);
@@ -21,5 +21,5 @@ ko.dirtyFlag = function(root, isInitiallyDirty, saveMethod) {
         }            
     });
 
-    return result;
+    root.hamhock = result;
 };
