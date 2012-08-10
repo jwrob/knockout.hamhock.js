@@ -22,8 +22,6 @@ ko.hamhock = function(options) {
     };
     
     ko.computed(function(){
-        //var dirty = _isInitiallyDirty() || _initialState() !== ko.toJSON(options.root);
-
         if(options.saveMethod && typeof(options.saveMethod) === "function" && result.isDirty()){
             if(options.saveMethod() !== false){
                 result.reset();
