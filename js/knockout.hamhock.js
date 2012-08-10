@@ -1,25 +1,35 @@
-ko.hamhock = function(root, isInitiallyDirty, saveMethod) {
-    var result = function() {}
-    var _initialState = ko.observable(ko.toJSON(root));
-    var _isInitiallyDirty = ko.observable(isInitiallyDirty);
+ko.hamhock = function(options) {
+    var _initialState, _isInitiallyDirty, result;
+
+    options = $.extend({
+        root: {}, 
+        isInitiallyDirty: false, 
+        saveMethod: undefined
+    }, options);
+
+    _initialState = ko.observable(ko.toJSON(options.root));
+    _isInitiallyDirty = ko.observable(options.isInitiallyDirty);
+    result = function() { };
 
     result.isDirty = ko.computed(function(){
-        return _isInitiallyDirty() || _initialState() !== ko.toJSON(root);
+        return _isInitiallyDirty() || 
+            (_initialState() !== ko.toJSON(options.root));
     });
 
     result.reset = function() {
-        _initialState(ko.toJSON(root));
+        _initialState(ko.toJSON(options.root));
         _isInitiallyDirty(false);
     };
     
     ko.computed(function(){
-        var dirty = _isInitiallyDirty() || _initialState() !== ko.toJSON(root);
+        //var dirty = _isInitiallyDirty() || _initialState() !== ko.toJSON(options.root);
 
-        if(dirty && saveMethod && typeof(saveMethod) === "function"){
-            saveMethod();         
-            result.reset();
+        if(options.saveMethod && typeof(options.saveMethod) === "function" && result.isDirty()){
+            if(options.saveMethod() !== false){
+                result.reset();
+            }         
         }            
     });
 
-    root.hamhock = result;
+    options.root.hamhock = result;
 };
