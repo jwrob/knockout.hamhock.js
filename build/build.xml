@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<project name="Hambone Build .. Just compressing JS here .." default="initialize">
+
+    <!--
+    <target name="initialize" depends="call_david">
+
+        <echo>Build Complete!</echo>
+
+    </target>
+
+    <target name="call_david">
+
+        <echo>Hello David!</echo>
+
+    </target>
+    -->
+
+    <target name="compress">
+
+        <java jar="${yui_dir}/${yui_compressor_name}" fork="true">
+            <arg value="${file}" />
+            <arg value="-o" />
+            <arg value="${out_file}" />
+        </java>
+
+        <echo>${file}</echo>
+        <echo>${out_file}</echo>
+
+    </target>
+
+    <target name="initialize" depends="compress_js">
+
+        <echo>Build Complete!</echo>
+
+    </target>
+
+    <target name="get_properties">
+
+        <property file="ant.properties" />
+        <echo>properties loaded...</echo>
+
+    </target>
+
+    <target name="compress_js" depends="get_properties">
+    
+        <antcall target="compress">
+            <param name="file" value="${source_dir}/knockout.hamhock.js" />
+            <param name="out_file" value="${source_dir}/knockout.hamhock.min.js" />
+        </antcall>
+    
+    </target>
+
+</project>

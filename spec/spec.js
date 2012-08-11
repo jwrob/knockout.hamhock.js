@@ -170,5 +170,18 @@ describe("a hamhock", function(){
 
 		});
 
+		it("does reset the dirty flag if we dont' return false", function(){
+
+			ko.hamhock({
+				root: newvm, 
+				isInitiallyDirty: false, 
+				saveMethod: function(){ var x; x = 10; console.log(x); }
+			});
+
+			newvm.three.alpha("omega");
+
+			expect(newvm.hamhock.isDirty()).toEqual(false);
+		});
+
 	});
 });
